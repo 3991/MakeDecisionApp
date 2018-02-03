@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+		{% for topic in topics %}
+			<a href="/home/{{topic.id}}" class="btn btn-primary">{{topic.name}} <span class="badge">{{topic.lessons|length}}</span></a>
+		{% endfor %}
+	<br/><br/><br/><br/>
+		<ul class="list-group">
+			{% for lesson in lessons %}
+				<li class="list-group-item list-group-item-action flex-column align-items-start">
+	 				<p class="mb-1">{{lesson.lesson|safe}}</p>
+	 				<small class="text-muted">{{lesson.source}}</small>
+ 				</li>
+			{% endfor %}
+		</ul>
+{% endblock %}

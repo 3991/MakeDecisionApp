@@ -1,0 +1,7 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    {% for topic in topics %}
+			<a href="home/{{topic.id}}" class="btn btn-primary">{{topic.name}} <span class="badge">{{topic.lessons|length}}</span></a>
+    {% endfor %}
+{% endblock %}
