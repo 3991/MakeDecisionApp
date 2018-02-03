@@ -5,6 +5,7 @@ from flask_mysqldb import MySQL
 app = Flask(__name__)
 
 
+
 # init MySQL
 mysql = MySQL(app)
 
@@ -12,12 +13,30 @@ Topics = Topics()
 
 @app.route("/")
 def home():
-    return render_template('home.html', topics = Topics)
+    cur = mysql.connection.cursor()
+    result = cur.execute("SELECT * FROM tags")
+    tags = cur.fetchall()
+    cur.close()
+    if result > 0:
+        return render_template('home.html', tags = tags)
+    else:
+        error = 'Tags not found'
+        return render_template('home.html', error = error)
 
 @app.route("/home/<string:id>/")
 def lessons(id):
+    cur = mysql.connection.cursor()
+    result = cur.execute("SELECT * FROM tags")
+    tags = cur.fetchall()
+    result2 = cur.execute("SELECT * FROM lessons WHERE tag_id = %s", [id])
+    lessons = cur.fetchall()
+    cur.close()
+    if result > 0:
+        return render_template('article.html', tags = tags, lessons = lessons)
+    else:
+        error = 'Tags not found'
+        return render_template('article.html', error = error)
 
-    return render_template('article.html', lessons = Topics[int(id)]['lessons'], topics = Topics)
 
 @app.route("/books")
 def books():

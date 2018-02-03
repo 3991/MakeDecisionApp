@@ -1,7 +1,11 @@
 {% extends 'layout.html' %}
 
+{% if error %}
+	<div class="alert alert-danger">{{error}}</div>
+{% endif %}
+
 {% block body %}
-    {% for topic in topics %}
-			<a href="home/{{topic.id}}" class="btn btn-primary">{{topic.name}} <span class="badge">{{topic.lessons|length}}</span></a>
+    {% for tag in tags %}
+			<a href="home/{{tag.id}}" class="btn btn-primary">{{tag.name}}</a>
     {% endfor %}
 {% endblock %}
