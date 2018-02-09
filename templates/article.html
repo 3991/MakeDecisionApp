@@ -6,14 +6,18 @@
 
 {% block body %}
 		{% for tag in tags %}
-			<a href="/home/{{tag.id}}" class="btn btn-primary">{{tag.name}}</a>
+			<a href="/home/{{tag.id}}" class="btn btn-default"><span class="text-muted">{{tag.name}}</span></a>
 		{% endfor %}
-	<br/><br/><br/><br/>
+		<br/><br/><br/><br/>
 		<ul class="list-group">
-			{% for lesson in lessons %}
+			{% for l in lessons %}
 				<li class="list-group-item list-group-item-action flex-column align-items-start">
-					<p class="mb-1">{{lesson.lesson}}</p>
-					<small class="text-muted">{{lesson.source}}</small>
+					<p class="mb-1">{{l.lesson|safe}}</p>
+					{% for s in sources %}
+						{% if l.source_id == s.id  %}
+							<small class="text-muted">{{s.name}} - {{s.author}}</small>
+						{% endif %}
+					{% endfor %}
 				</li>
 			{% endfor %}
 		</ul>

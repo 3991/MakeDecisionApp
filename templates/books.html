@@ -1,11 +1,18 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<ul>
-  <li>The Cathedral and the Bazaar by Eric S. Raymond</li>
-  <li>The Mythical Man-Month by Fred Brooks</li>
-  <li>Jean Riviere - YouTube</li>
-  <li>Rich Dad Poor Dad by Robert Kiyosaki and Sharon Lechter</li>
-  <li>The 4-Hour Workweek by Timothy Ferriss</li>
-</ul>
+<div class="addon">
+  <ul>
+	{% for s in sources %}
+		<li class="clearfix">
+			<a href="" target="_blank">
+				<img class="round" src="">
+				<div class="legend-info">
+					<strong>{{s.name}}</strong>{{s.author}}
+				</div>
+			</a>
+		</li>
+	{% endfor %}
+  </ul>
+</div>
 {% endblock %}
