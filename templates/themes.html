@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+		<ul >
+			{% for t in themes %}
+				<li>
+					<h3><p class="text-muted">{{t.name|safe}}</p></h3>
+				</li>
+			{% endfor %}
+		</ul>
+{% endblock %}

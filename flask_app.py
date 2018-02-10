@@ -4,18 +4,6 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.config["DEBUG"] = True
 
-"""SQLALCHEMY_DATABASE_URI = "mysql://{username}:{password}@{hostname}/{databasename}".format(
-    username="charlemagneIsAlr",
-    password="sdfghjkl",
-    hostname="charlemagneIsAlreadyTaken.mysql.pythonanywhere-services.com",
-    databasename="charlemagneIsAlr$flask_note",
-)"""
-SQLALCHEMY_DATABASE_URI = "mysql://{username}:{password}@{hostname}/{databasename}".format(
-    username="root",
-    password="sdfgh",
-    hostname="localhost",
-    databasename="flaskDB",
-)
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -39,6 +27,12 @@ class Source(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column('name', db.Unicode)
     author = db.Column('author', db.Unicode)
+
+class Theme(db.Model):
+    __tablename__ = "themes"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column('name', db.Unicode)
+
 
 tags = Tag.query.all()
 
@@ -69,6 +63,14 @@ def books():
 @app.route("/error")
 def error():
     return render_template('error.html')
+
+@app.route("/themes")
+def theme():
+    try:
+        themes = Theme.query.all()
+        return render_template('themes.html', themes = themes)
+    except Exception as e:
+        print(e)
 
 if __name__ == "__main__":
     app.run()
