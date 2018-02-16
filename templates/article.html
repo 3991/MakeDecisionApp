@@ -1,9 +1,5 @@
 {% extends 'layout.html' %}
 
-{% if error %}
-	<div class="alert alert-danger">{{error}}</div>
-{% endif %}
-
 {% block body %}
 		{% for tag in tags %}
 			<a href="/home/{{tag.id}}" class="btn btn-default"><span class="text-muted">{{tag.name}}</span></a>

@@ -1,8 +1,9 @@
-from flask import Flask, render_template, Markup
+from flask import Flask, render_template, Markup, abort
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
+
 
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
@@ -32,6 +33,12 @@ class Theme(db.Model):
     __tablename__ = "themes"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column('name', db.Unicode)
+
+class Theme_Tags(db.Model):
+    __tablename__ = "themes_tags"
+    id = db.Column(db.Integer, primary_key=True)
+    theme_id = db.Column(db.Integer, db.ForeignKey('theme.id'))
+    tag_name = db.Column('tag_name', db.Unicode)
 
 
 tags = Tag.query.all()
@@ -68,9 +75,17 @@ def error():
 def theme():
     try:
         themes = Theme.query.all()
-        return render_template('themes.html', themes = themes)
+        themes_tags = Theme_Tags.query.all()
+        if not themes:
+            abort(404)
+        return render_template('themes.html', themes = themes, themes_tags = themes_tags)
     except Exception as e:
         print(e)
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('errors/404.html'), 404
+
 
 if __name__ == "__main__":
     app.run()

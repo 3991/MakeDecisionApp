@@ -5,6 +5,11 @@
 			{% for t in themes %}
 				<li>
 					<h3><p class="text-muted">{{t.name|safe}}</p></h3>
+					{% for t_t in themes_tags %}
+						{% if t_t.theme_id == t.id  %}
+							<a href="#" class="btn btn-default"><span class="text-muted">{{t_t.tag_name}}</span></a>
+						{% endif %}
+					{% endfor %}
 				</li>
 			{% endfor %}
 		</ul>
