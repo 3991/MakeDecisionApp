@@ -4,12 +4,15 @@
 		{% for tag in tags %}
 			<a href="/home/{{tag.id}}" class="btn btn-default"><span class="text-muted">{{tag.name}}</span></a>
 		{% endfor %}
-		<br/><br/><br/><br/>
+		<br/><br/>
 		<ul class="list-group">
+			<h4><span class="text-muted">Thème : </span>{{theme.name}}</h4>
+			<h4><span class="text-muted">Tag : </span>{{tag.name}}</h4>
 			{% for l in lessons %}
 				<li class="list-group-item list-group-item-action flex-column align-items-start">
 					<p class="mb-1">{{l.lesson|safe}}</p>
 					{% for s in sources %}
+						<p>{{s.lesson_id}}</p>
 						{% if l.source_id == s.id  %}
 							<small class="text-muted">{{s.name}} - {{s.author}}</small>
 						{% endif %}

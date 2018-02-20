@@ -15,13 +15,14 @@ class Tag(db.Model):
     __tablename__ = "tags"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column('name', db.Unicode)
+    theme_id = db.Column(db.Integer, db.ForeignKey('theme.id'))
 
 class Lesson(db.Model):
     __tablename__ = "lessons"
     id = db.Column(db.Integer, primary_key=True)
     lesson = db.Column('lesson', db.Unicode)
-    source_id = db.Column(db.Integer, db.ForeignKey('source.id'))
     tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'))
+    source_id = db.Column(db.Integer, db.ForeignKey('source.id'))
 
 class Source(db.Model):
     __tablename__ = "sources"
@@ -33,12 +34,6 @@ class Theme(db.Model):
     __tablename__ = "themes"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column('name', db.Unicode)
-
-class Theme_Tags(db.Model):
-    __tablename__ = "themes_tags"
-    id = db.Column(db.Integer, primary_key=True)
-    theme_id = db.Column(db.Integer, db.ForeignKey('theme.id'))
-    tag_name = db.Column('tag_name', db.Unicode)
 
 
 tags = Tag.query.all()
@@ -55,7 +50,9 @@ def lessons(id):
     try:
         sources = Source.query.all()
         lessons = Lesson.query.filter_by(tag_id=id).all()
-        return render_template('article.html', tags = tags, lessons = lessons, sources = sources)
+        tag = Tag.query.filter_by(id=id).first()
+        theme = Theme.query.filter_by(id=tag.theme_id).first()
+        return render_template('article.html', tags = tags, tag = tag, theme = theme, lessons = lessons, sources = sources)
     except Exception as e:
         print(e)
 
@@ -75,10 +72,10 @@ def error():
 def theme():
     try:
         themes = Theme.query.all()
-        themes_tags = Theme_Tags.query.all()
+        tags = Tag.query.all()
         if not themes:
             abort(404)
-        return render_template('themes.html', themes = themes, themes_tags = themes_tags)
+        return render_template('themes.html', themes = themes, tags = tags)
     except Exception as e:
         print(e)
 
