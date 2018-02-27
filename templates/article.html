@@ -6,8 +6,7 @@
 		{% endfor %}
 		<br/><br/>
 		<ul class="list-group">
-			<h4><span class="text-muted">Thème : </span>{{theme.name}}</h4>
-			<h4><span class="text-muted">Tag : </span>{{tag.name}}</h4>
+			<p>Thème : <a href="/theme/{{theme.id}}" class=""><span class="text-muted">{{theme.name}}</span></span></a></p>
 			{% for l in lessons %}
 				<li class="list-group-item list-group-item-action flex-column align-items-start">
 					<p class="mb-1">{{l.lesson|safe}}</p>

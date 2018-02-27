@@ -1,11 +1,40 @@
 {% extends 'layout.html' %}
 
-{% if error %}
-	<div class="alert alert-danger">{{error}}</div>
-{% endif %}
-
 {% block body %}
-    {% for tag in tags %}
-			<a href="home/{{tag.id}}" class="btn btn-default"><span class="text-muted">{{tag.name}}</span></a>
-    {% endfor %}
+	<h3><p class="text-muted">Thèmes</p></h3>
+	{% for theme in themes %}
+		<a href="/home/tags/{{theme.id}}" class="btn btn-default"><span class="text-muted">{{theme.name}}</span></a>
+	{% endfor %}
+	{% if tags != null %}
+		</br>
+		<h3><p class="text-muted">Tags</p></h3>
+		{% for tag in tags %}
+			<a href="/home/lessons/{{tag.id}}/{{theme_id}}" class="btn btn-default"><span class="text-muted">{{tag.name}}</span></a>
+		{% endfor %}
+		{% if lessons != null %}
+			</br>
+			<h3><p class="text-muted">Notes</p></h3>
+			{% for l in lessons %}
+				<li class="list-group-item list-group-item-action flex-column align-items-start">
+					<table style="width:100%">
+						<tr>
+							<td style="width:95%">
+								<p class="mb-1">{{l.lesson|safe}}</p>
+								{% for s in sources %}
+									<p>{{s.lesson_id}}</p>
+									{% if l.source_id == s.id  %}
+										<small class="text-muted">{{s.name}} - {{s.author}}</small>
+									{% endif %}
+								{% endfor %}
+							</td>
+							<td valign="top" align="right">
+								<a href="/perm/{{l.id}}/{{l.tag_id}}/{{theme_id}}"><small class="text-muted">#{{l.id}}</small></a>
+							</td>
+						</tr>
+					</table>
+				</li>
+			</br>
+			{% endfor %}
+		{% endif %}
+  {% endif %}
 {% endblock %}

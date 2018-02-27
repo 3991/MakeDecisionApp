@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <p>Thème : <a href="#" class="text-muted"><span class="btn btn-default">{{theme.name|safe}}</span></a></p>
+  <p>Tag : <a href="#" class="text-muted"><span class="btn btn-default">{{tag.name|safe}}</span></a></p>
+  <li class="list-group-item list-group-item-action flex-column align-items-start">
+    <p class="mb-1">{{lesson.lesson|safe}}</p>
+    {% for s in sources %}
+      {% if lesson.source_id == s.id  %}
+        <small class="text-muted">{{s.name}} - {{s.author}}</small>
+      {% endif %}
+    {% endfor %}
+  </li>
+  <a href="/home/lessons/{{tag_id}}/{{theme_id}}/" class="text-muted">Retour</a>
+{% endblock body %}
